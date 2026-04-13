@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citas Célebres</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --bg: #0f172a;
+            --surface: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #cbd5e1;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+                radial-gradient(at 50% 0%, hsla(225,39%,30%,0.2) 0, transparent 50%), 
+                radial-gradient(at 100% 0%, hsla(339,49%,30%,0.2) 0, transparent 50%);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            background: var(--surface);
+            padding: 3rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+        }
+
+        .quote-icon {
+            font-size: 4rem;
+            color: var(--primary);
+            opacity: 0.2;
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            line-height: 1;
+        }
+
+        .quote-text {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            margin: 2rem 0;
+            position: relative;
+            z-index: 1;
+            font-weight: 300;
+        }
+
+        .quote-author {
+            font-size: 1.1rem;
+            color: var(--primary);
+            font-weight: 600;
+            text-align: right;
+            margin-bottom: 2rem;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+        }
+
+        .tweet-btn {
+            color: #1da1f2;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: opacity 0.2s;
+        }
+
+        .tweet-btn:hover {
+            opacity: 0.8;
+        }
+
+        .new-quote-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .new-quote-btn:hover {
+            background: var(--primary-hover);
+            transform: scale(1.05);
+        }
+
+        .new-quote-btn:active {
+            transform: scale(0.95);
+        }
+
+        .fade {
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Icono de Twitter -->
+    <svg style="display: none;">
+        <symbol id="icon-twitter" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+        </symbol>
+    </svg>
+</head>
+<body>
+
+    <div class="container" id="quote-box">
+        <div class="quote-icon">"</div>
+        <div class="quote-text" id="text">Las grandes almas tienen voluntades; las débiles tan solo deseos.</div>
+        <div class="quote-author" id="author">- Proverbio Chino</div>
+        
+        <div class="button-container">
+            <a href="#" id="tweet-quote" class="tweet-btn" target="_blank" rel="noopener noreferrer">
+                <svg width="24" height="24"><use href="#icon-twitter"></use></svg>
+                Twittear
+            </a>
+            <button class="new-quote-btn" id="new-quote">Nueva Cita</button>
+        </div>
+    </div>
+
+    <script>
+        const quotes = [
+            { text: "La vida es lo que pasa mientras estás ocupado haciendo otros planes.", author: "John Lennon" },
+            { text: "El único modo de hacer un gran trabajo es amar lo que haces.", author: "Steve Jobs" },
+            { text: "No cuentes los días, haz que los días cuenten.", author: "Muhammad Ali" },
+            { text: "La creatividad es la inteligencia divirtiéndose.", author: "Albert Einstein" },
+            { text: "Si puedes soñarlo, puedes hacerlo.", author: "Walt Disney" },
+            { text: "Solo yo puedo cambiar mi vida. Nadie puede hacerlo por mí.", author: "Carol Burnett" },
+            { text: "Empieza donde estás. Usa lo que tienes. Haz lo que puedes.", author: "Arthur Ashe" },
+            { text: "Las grandes almas tienen voluntades; las débiles tan solo deseos.", author: "Proverbio Chino" },
+            { text: "Nunca es demasiado tarde para ser lo que podrías haber sido.", author: "George Eliot" },
+            { text: "La mejor forma de predecir el futuro es creándolo.", author: "Peter Drucker" }
+        ];
+
+        const textElement = document.getElementById('text');
+        const authorElement = document.getElementById('author');
+        const newQuoteBtn = document.getElementById('new-quote');
+        const tweetBtn = document.getElementById('tweet-quote');
+        const quoteBox = document.getElementById('quote-box');
+
+        function getRandomQuote() {
+            return quotes[Math.floor(Math.random() * quotes.length)];
+        }
+
+        function updateQuote() {
+            const quote = getRandomQuote();
+            
+            // Remove animation class to trigger reflow
+            textElement.classList.remove('fade');
+            authorElement.classList.remove('fade');
+            
+            // Force reflow
+            void textElement.offsetWidth;
+            
+            // Update text and add animation class
+            textElement.textContent = quote.text;
+            authorElement.textContent = "- " + quote.author;
+            
+            textElement.classList.add('fade');
+            authorElement.classList.add('fade');
+
+            // Update Twitter link
+            const tweetText = encodeURIComponent(`"${quote.text}" - ${quote.author}`);
+            tweetBtn.href = `https://twitter.com/intent/tweet?text=${tweetText}`;
+        }
+
+        newQuoteBtn.addEventListener('click', updateQuote);
+        
+        // Initialize Twitter initial link
+        updateQuote();
+    </script>
+</body>
+</html>
